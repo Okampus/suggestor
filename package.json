@@ -1,0 +1,68 @@
+{
+  "name": "suggestor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/main.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "dev": "npm run start:dev",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix"
+  },
+  "keywords": [],
+  "author": "Elliot 'noftaly' Maisl",
+  "license": "MIT",
+  "dependencies": {
+    "@discord-nestjs/common": "^3.4.2",
+    "@discord-nestjs/core": "^3.6.0",
+    "@discordjs/builders": "^0.15.0",
+    "@mikro-orm/core": "^5.2.3",
+    "@mikro-orm/mongo-highlighter": "^1.0.0",
+    "@mikro-orm/mongodb": "^5.2.3",
+    "@mikro-orm/nestjs": "^5.1.0",
+    "@mikro-orm/reflection": "^5.2.3",
+    "@nestjs/common": "^9.0.3",
+    "@nestjs/core": "^9.0.3",
+    "@sapphire/discord-utilities": "^2.11.4",
+    "@sapphire/discord.js-utilities": "^4.11.3",
+    "cache-manager": "^4.1.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "core-js": "^3.23.4",
+    "discord.js": "^13.8.1",
+    "dotenv": "^16.0.1",
+    "pupa": "^2.1.1",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.5.6"
+  },
+  "devDependencies": {
+    "@discord-nestjs/schematics": "^0.1.7",
+    "@nestjs/cli": "^9.0.0",
+    "@types/cache-manager": "^4.0.1",
+    "@types/node": "^18.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "eslint": "^8.19.0",
+    "eslint-config-noftalint": "^2.9.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-unicorn": "^43.0.1",
+    "typescript": "^4.7.4"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/configs/mikro-orm.config.ts",
+      "./dist/configs/mikro-orm.config.js"
+    ]
+  },
+  "engines": {
+    "node": ">=16.9.0"
+  }
+}
