@@ -68,7 +68,7 @@ export default {
     params: {
       user: 'Personne visée.',
     },
-    selfPoints: 'Tu as {points} points de feedback.',
-    someonesPoints: `${userMention('{user}')} a {points} points de feedback.`,
+    selfPoints: 'Tu as **{points} points** de feedback. Tu es **{rank}{suffix}** du serveur !',
+    someonesPoints: `${userMention('{user}')} a **{points} points** de feedback et est **{rank}{suffix}** du serveur !`,
   },
 } as const;

@@ -10,9 +10,9 @@ import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { CACHE_MANAGER, Inject } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import messagesConfig from '../../../configs/messages.config';
-import { GuildConfig } from '../../../lib/entities/guild-config.entity';
-import { CacheKey, DurationSeconds } from '../../../lib/enums';
+import messagesConfig from '../../configs/messages.config';
+import { GuildConfig } from '../../lib/entities/guild-config.entity';
+import { CacheKey, DurationSeconds } from '../../lib/enums';
 import { ChannelsDto } from './dto/channels.dto';
 
 @UsePipes(TransformPipe)

@@ -1,6 +1,6 @@
 import { Channel, Param } from '@discord-nestjs/core';
 import { ChannelTypes } from 'discord.js/typings/enums';
-import messagesConfig from '../../../../configs/messages.config';
+import messagesConfig from '../../../configs/messages.config';
 
 export class ChannelsDto {
   @Channel([ChannelTypes.GUILD_TEXT])

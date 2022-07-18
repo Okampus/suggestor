@@ -1,35 +1,13 @@
-import { DiscordModule } from '@discord-nestjs/core';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { Feedback } from '../lib/entities/feedback.entity';
-import { GuildConfig } from '../lib/entities/guild-config.entity';
-import { UserPoint } from '../lib/entities/user-point.entity';
-import * as guards from '../lib/guards';
-import { ChannelsModule } from './commands/channels/channels.module';
-import { PointsModule } from './commands/points/points.module';
-import { FeedbackGateway } from './feedbacks/feedback.gateway';
-import { FeedbackService } from './feedbacks/feedback.service';
+import { ChannelsModule } from './channels/channels.module';
+import { FeedbackModule } from './feedbacks/feedback.module';
+import { PointsModule } from './points/points.module';
 
 @Module({
   imports: [
-    DiscordModule.forFeature(),
-    MikroOrmModule.forFeature([GuildConfig, Feedback, UserPoint]),
-
     ChannelsModule,
+    FeedbackModule,
     PointsModule,
   ],
-  providers: [
-    guards.ButtonInteractionGuard,
-    guards.InteractionInGuildGuard,
-    guards.IsFeedbackButtonGuard,
-    guards.IsFeedbackModalGuard,
-    guards.MessageFromUserGuard,
-    guards.MessageInGuildGuard,
-    guards.ModalInteractionGuard,
-
-    FeedbackService,
-    FeedbackGateway,
-  ],
-  exports: [],
 })
 export class BotModule {}

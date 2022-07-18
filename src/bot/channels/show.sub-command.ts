@@ -4,8 +4,8 @@ import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { CommandInteraction } from 'discord.js';
 import pupa from 'pupa';
-import messagesConfig from '../../../configs/messages.config';
-import { GuildConfig } from '../../../lib/entities/guild-config.entity';
+import messagesConfig from '../../configs/messages.config';
+import { GuildConfig } from '../../lib/entities/guild-config.entity';
 
 @SubCommand({ name: 'show', description: messagesConfig.channelsCommand.show.description })
 export class ShowSubCommand implements DiscordCommand {
