@@ -24,7 +24,7 @@ export default {
     },
     buttons: {
       reject: 'Rejeter',
-      update: 'Update',
+      update: 'Détails',
       accept: 'Accepter',
       drop: 'Abandonné',
       implement: 'Implémenté',
