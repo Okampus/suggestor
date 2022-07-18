@@ -2,6 +2,9 @@ import { inlineCode, TimestampStyles, userMention } from '@discordjs/builders';
 import { timeFormat } from '../lib/utils';
 
 export default {
+  global: {
+    noPermission: "Tu n'as pas la permission de faire cela :confused:",
+  },
   feedback: {
     embed: {
       title: '#{feedbackId} — {member.displayName}',

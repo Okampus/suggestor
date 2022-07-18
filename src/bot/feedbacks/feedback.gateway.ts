@@ -9,6 +9,7 @@ import { GuildConfig } from '../../lib/entities/guild-config.entity';
 import { CacheKey, DurationSeconds } from '../../lib/enums';
 import {
   ButtonInteractionGuard,
+  CanManageMessagesGuard,
   InteractionInGuildGuard,
   IsFeedbackButtonGuard,
   IsFeedbackModalGuard,
@@ -54,7 +55,7 @@ export class FeedbackGateway {
   }
 
   @On('interactionCreate')
-  @UseGuards(ButtonInteractionGuard, InteractionInGuildGuard, IsFeedbackButtonGuard)
+  @UseGuards(ButtonInteractionGuard, InteractionInGuildGuard, CanManageMessagesGuard, IsFeedbackButtonGuard)
   public async onButton(interaction: GuildButtonInteraction): Promise<void> {
     // When a button is clicked, extract the feedback id and type from the custom id
     const { type, id: feedbackId } = Constants.FeedbackButtonCustomIdRegex
@@ -72,7 +73,7 @@ export class FeedbackGateway {
 
   @On('interactionCreate')
   @ParseModal()
-  @UseGuards(ModalInteractionGuard, InteractionInGuildGuard, IsFeedbackModalGuard)
+  @UseGuards(ModalInteractionGuard, InteractionInGuildGuard, CanManageMessagesGuard, IsFeedbackModalGuard)
   public async onModal(
     @Payload() actionResultDto: ActionResultDto,
     interaction: GuildModalInteraction,

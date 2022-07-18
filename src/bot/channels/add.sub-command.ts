@@ -4,6 +4,7 @@ import {
   Payload,
   SubCommand,
   TransformedCommandExecutionContext,
+  UseGuards,
   UsePipes,
 } from '@discord-nestjs/core';
 import { EntityRepository } from '@mikro-orm/mongodb';
@@ -13,8 +14,10 @@ import { Cache } from 'cache-manager';
 import messagesConfig from '../../configs/messages.config';
 import { GuildConfig } from '../../lib/entities/guild-config.entity';
 import { CacheKey, DurationSeconds } from '../../lib/enums';
+import { IsAdministratorGuard } from '../../lib/guards';
 import { ChannelsDto } from './dto/channels.dto';
 
+@UseGuards(IsAdministratorGuard)
 @UsePipes(TransformPipe)
 @SubCommand({ name: 'add', description: messagesConfig.channelsCommand.add.description })
 export class AddSubCommand implements DiscordTransformedCommand<ChannelsDto> {
@@ -26,7 +29,7 @@ export class AddSubCommand implements DiscordTransformedCommand<ChannelsDto> {
   public async handler(
     @Payload() addDto: ChannelsDto,
     { interaction }: TransformedCommandExecutionContext,
-  ): Promise<void> {
+    ): Promise<void> {
     // Deduplicate the provided channel IDs
     const channelIds = new Set(Object.values(addDto));
 
