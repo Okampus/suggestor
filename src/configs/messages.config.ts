@@ -71,4 +71,9 @@ export default {
     selfPoints: 'Tu as **{points} points** de feedback. Tu es **{rank}{suffix}** du serveur !',
     someonesPoints: `${userMention('{user}')} a **{points} points** de feedback et est **{rank}{suffix}** du serveur !`,
   },
+  leaderboardCommand: {
+    description: 'Voir le classement des points.',
+    leaderboardTitle: 'Classement des points de feedback',
+    leaderboardLine: `{rank}. ${userMention('{user}')} — {points} points`,
+  },
 } as const;
