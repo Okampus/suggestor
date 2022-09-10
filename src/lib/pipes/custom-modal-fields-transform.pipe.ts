@@ -26,17 +26,15 @@ export class CustomModalFieldsTransformPipe implements DiscordPipeTransform {
     for (const property of Object.keys(dtoInstance)) {
       const fieldMetadata = this.metadataProvider.getFiledDecoratorMetadata(dtoInstance, property);
       if (fieldMetadata) {
-        try {
+        if (modal.fields.fields.has(fieldMetadata.customId ?? property))
           plainObject[property] = modal.fields.getField(fieldMetadata.customId ?? property);
-        } catch { /* Ignore non-existant fields */ }
         continue;
       }
 
       const textInputValueMetadata = this.metadataProvider.getTextInputValueDecoratorMetadata(dtoInstance, property);
       if (textInputValueMetadata) {
-        try {
+        if (modal.fields.fields.has(textInputValueMetadata.customId ?? property))
           plainObject[property] = modal.fields.getTextInputValue(textInputValueMetadata.customId ?? property);
-        } catch { /* Ignore non-existant fields */ }
         continue;
       }
     }
