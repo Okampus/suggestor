@@ -3,7 +3,7 @@ import { Command } from '@discord-nestjs/core';
 import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { CommandInteraction } from 'discord.js';
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import pupa from 'pupa';
 import messagesConfig from '../../configs/messages.config';
 import { UserPoint } from '../../lib/entities/user-point.entity';
@@ -27,7 +27,7 @@ export class LeaderboardCommand implements DiscordCommand {
     // Display the leaderboard in an embed
     await interaction.reply({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setTitle(messagesConfig.leaderboardCommand.leaderboardTitle)
           .setDescription(
             leaderboard

@@ -1,7 +1,7 @@
 import { DiscordModule } from '@discord-nestjs/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { CacheModule, Module } from '@nestjs/common';
-import { Intents } from 'discord.js';
+import { GatewayIntentBits } from 'discord.js';
 import { BotModule } from './bot/bot.module';
 import config from './configs/app.config';
 
@@ -12,7 +12,7 @@ import config from './configs/app.config';
       useFactory: () => ({
         token: config.token,
         discordClientOptions: {
-          intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+          intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
         },
         registerCommandOptions: [{ removeCommandsBefore: true }],
       }),

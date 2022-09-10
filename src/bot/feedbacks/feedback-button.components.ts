@@ -1,37 +1,36 @@
-import { MessageActionRow, MessageButton } from 'discord.js';
-import { MessageButtonStyles } from 'discord.js/typings/enums';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import messagesConfig from '../../configs/messages.config';
 
-export function getStatusEmbedComponents(feedbackUid: string): MessageActionRow[] {
+export function getStatusEmbedComponents(feedbackUid: string): Array<ActionRowBuilder<ButtonBuilder>> {
   return [
-    new MessageActionRow()
+    new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
-        new MessageButton()
-          .setStyle(MessageButtonStyles.DANGER)
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Danger)
           .setLabel(messagesConfig.feedback.buttons.reject)
           .setCustomId(`feedback-reject-button-${feedbackUid}`),
-        new MessageButton()
-          .setStyle(MessageButtonStyles.SECONDARY)
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Secondary)
           .setLabel(messagesConfig.feedback.buttons.update)
           .setCustomId(`feedback-update-button-${feedbackUid}`),
-        new MessageButton()
-          .setStyle(MessageButtonStyles.SUCCESS)
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Success)
           .setLabel(messagesConfig.feedback.buttons.accept)
           .setCustomId(`feedback-accept-button-${feedbackUid}`),
       ),
   ];
 }
 
-export function getAcceptedComponents(feedbackUid: string): MessageActionRow[] {
+export function getAcceptedComponents(feedbackUid: string): Array<ActionRowBuilder<ButtonBuilder>> {
   return [
-    new MessageActionRow()
+    new ActionRowBuilder<ButtonBuilder>()
       .addComponents(
-        new MessageButton()
-          .setStyle(MessageButtonStyles.DANGER)
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Danger)
           .setLabel(messagesConfig.feedback.buttons.drop)
           .setCustomId(`feedback-drop-button-${feedbackUid}`),
-        new MessageButton()
-          .setStyle(MessageButtonStyles.SUCCESS)
+        new ButtonBuilder()
+          .setStyle(ButtonStyle.Success)
           .setLabel(messagesConfig.feedback.buttons.implement)
           .setCustomId(`feedback-implement-button-${feedbackUid}`),
       ),

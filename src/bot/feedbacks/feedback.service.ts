@@ -1,6 +1,7 @@
 import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
+import { ThreadAutoArchiveDuration } from 'discord.js';
 import { Feedback } from '../../lib/entities/feedback.entity';
 import { UserPoint } from '../../lib/entities/user-point.entity';
 import type { GuildMessage, GuildModalInteraction } from '../../lib/types';
@@ -30,7 +31,7 @@ export class FeedbackService {
     // 1. Create a thread
     await message.startThread({
       name: `[${feedbackId}] ${trimText(message.content, 40)}`,
-      autoArchiveDuration: 'MAX',
+      autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
     });
 
     // 2. Store the feedback in the database

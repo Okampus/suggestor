@@ -28,7 +28,7 @@
     "@nestjs/common": "^9.0.11",
     "@nestjs/core": "^9.0.11",
     "@sapphire/discord-utilities": "^2.11.6",
-    "@sapphire/discord.js-utilities": "^5.0.0",
+    "@sapphire/discord.js-utilities": "^5.1.0-pr-434.549335e.0",
     "cache-manager": "^4.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",

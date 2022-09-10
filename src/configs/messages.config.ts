@@ -1,4 +1,4 @@
-import { inlineCode, TimestampStyles, userMention } from '@discordjs/builders';
+import { inlineCode, TimestampStyles, userMention } from 'discord.js';
 import { timeFormat } from '../lib/utils';
 
 export default {

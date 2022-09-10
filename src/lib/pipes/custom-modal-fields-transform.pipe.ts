@@ -3,7 +3,7 @@ import type { DiscordArgumentMetadata, DiscordPipeTransform } from '@discord-nes
 import { ReflectMetadataProvider } from '@discord-nestjs/core';
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
-import type { ModalSubmitInteraction, PartialTextInputData } from 'discord.js';
+import type { ModalData, ModalSubmitInteraction } from 'discord.js';
 
 @Injectable()
 export class CustomModalFieldsTransformPipe implements DiscordPipeTransform {
@@ -21,7 +21,7 @@ export class CustomModalFieldsTransformPipe implements DiscordPipeTransform {
 
     // eslint-disable-next-line prefer-destructuring
     const dtoInstance: object = metadata.commandNode.dtoInstance;
-    const plainObject: Record<string, PartialTextInputData | string> = {};
+    const plainObject: Record<string, ModalData | string> = {};
 
     for (const property of Object.keys(dtoInstance)) {
       const fieldMetadata = this.metadataProvider.getFiledDecoratorMetadata(dtoInstance, property);
