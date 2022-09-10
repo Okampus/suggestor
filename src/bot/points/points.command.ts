@@ -8,6 +8,7 @@ import {
 } from '@discord-nestjs/core';
 import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { PermissionFlagsBits } from 'discord.js';
 import pupa from 'pupa';
 import messagesConfig from '../../configs/messages.config';
 import { UserPoint } from '../../lib/entities/user-point.entity';
@@ -17,6 +18,8 @@ import { UserDto } from './dto/user.dto';
 @Command({
   name: 'points',
   description: messagesConfig.pointsCommand.description,
+  defaultMemberPermissions: PermissionFlagsBits.SendMessages,
+  dmPermission: false,
 })
 export class PointsCommand implements DiscordTransformedCommand<UserDto> {
   constructor(

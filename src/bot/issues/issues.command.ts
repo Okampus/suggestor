@@ -5,7 +5,7 @@ import type { FilterQuery } from '@mikro-orm/core';
 import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { ChatInputCommandInteraction } from 'discord.js';
-import { EmbedBuilder, messageLink } from 'discord.js';
+import { EmbedBuilder, messageLink, PermissionFlagsBits } from 'discord.js';
 import pupa from 'pupa';
 import messagesConfig from '../../configs/messages.config';
 import { Feedback } from '../../lib/entities/feedback.entity';
@@ -17,6 +17,8 @@ import { FiltersDto } from './dto/filters.dto';
 @Command({
   name: 'issues',
   description: messagesConfig.issuesCommand.description,
+  defaultMemberPermissions: PermissionFlagsBits.SendMessages,
+  dmPermission: false,
 })
 export class IssuesCommand implements DiscordTransformedCommand<FiltersDto> {
   constructor(

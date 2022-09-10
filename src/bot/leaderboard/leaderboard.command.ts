@@ -3,7 +3,7 @@ import { Command } from '@discord-nestjs/core';
 import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import type { CommandInteraction } from 'discord.js';
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import pupa from 'pupa';
 import messagesConfig from '../../configs/messages.config';
 import { UserPoint } from '../../lib/entities/user-point.entity';
@@ -11,6 +11,8 @@ import { UserPoint } from '../../lib/entities/user-point.entity';
 @Command({
   name: 'leaderboard',
   description: messagesConfig.leaderboardCommand.description,
+  defaultMemberPermissions: PermissionFlagsBits.SendMessages,
+  dmPermission: false,
 })
 export class LeaderboardCommand implements DiscordCommand {
   constructor(

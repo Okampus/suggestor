@@ -4,7 +4,6 @@ import {
   Payload,
   SubCommand,
   TransformedCommandExecutionContext,
-  UseGuards,
   UsePipes,
 } from '@discord-nestjs/core';
 import { EntityRepository } from '@mikro-orm/mongodb';
@@ -12,10 +11,8 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import pupa from 'pupa';
 import messagesConfig from '../../configs/messages.config';
 import { UserPoint } from '../../lib/entities/user-point.entity';
-import { IsAdministratorGuard } from '../../lib/guards';
 import { UpdatePointsDto } from './dto/update-points.dto';
 
-@UseGuards(IsAdministratorGuard)
 @UsePipes(TransformPipe)
 @SubCommand({ name: 'add', description: messagesConfig.managePointsCommand.add.description })
 export class AddSubCommand implements DiscordTransformedCommand<UpdatePointsDto> {
