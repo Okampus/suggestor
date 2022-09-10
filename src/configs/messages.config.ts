@@ -1,4 +1,5 @@
 import { inlineCode, TimestampStyles, userMention } from 'discord.js';
+import { FeedbackStatus } from '../lib/enums';
 import { timeFormat } from '../lib/utils/time-format.util';
 
 export default {
@@ -74,6 +75,35 @@ export default {
     },
     selfPoints: 'Tu as **{points} points** de feedback. Tu es **{rank}{suffix}** du serveur !',
     someonesPoints: `${userMention('{user}')} a **{points} points** de feedback et est **{rank}{suffix}** du serveur !`,
+  },
+  issuesCommand: {
+    description: 'Voir les retours encore en attente de réponse.',
+    params: {
+      channelDescription: 'Salon duquel récupérer les retours à afficher.',
+      statusDescription: 'Statut des retours à afficher.',
+      statusChoices: {
+        [FeedbackStatus.Rejected]: '❌ Retours rejetés',
+        [FeedbackStatus.Accepted]: '💚 Retours acceptés',
+        [FeedbackStatus.Pending]: '⏳ Retours en attente',
+        [FeedbackStatus.Dropped]: '⛔️ Retours abandonnés',
+        [FeedbackStatus.Implemented]: '✅ Retours implémentés',
+        waiting: '🤔 Retours en attente ou acceptés',
+        all: '🔍 Tous les retours',
+      },
+    },
+    embed: {
+      titles: {
+        [FeedbackStatus.Rejected]: 'Retours rejetés ({count})',
+        [FeedbackStatus.Accepted]: 'Retours acceptés ({count})',
+        [FeedbackStatus.Pending]: 'Retours en attente ({count})',
+        [FeedbackStatus.Dropped]: 'Retours abandonnés ({count})',
+        [FeedbackStatus.Implemented]: 'Retours implémentés ({count})',
+        waiting: 'Retours en attente ou acceptés ({count})',
+        all: 'Tous les retours ({count})',
+      },
+      listItem: `[[{feedbackId}] par ${userMention('{authorId}')} - ${timeFormat('{createdAt}')}]({url})`,
+    },
+    noFeedbackFound: 'Aucun retour trouvé.',
   },
   leaderboardCommand: {
     description: 'Voir le classement des points.',
