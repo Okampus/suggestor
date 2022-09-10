@@ -1,9 +1,10 @@
 import { inlineCode, TimestampStyles, userMention } from 'discord.js';
-import { timeFormat } from '../lib/utils';
+import { timeFormat } from '../lib/utils/time-format.util';
 
 export default {
   global: {
     noPermission: "Tu n'as pas la permission de faire cela :confused:",
+    wrongUserInteractionReply: 'Tu ne peux pas cliquer sur ces boutons, ils sont réservés à {user}.',
   },
   feedback: {
     embed: {
