@@ -103,15 +103,15 @@ export class FeedbackService {
     });
   }
 
-  public async addPoints(guildId: string, userId: string, points: number): Promise<number> {
+  public async addPoints(guildId: string, userId: string, points?: number): Promise<number> {
     // Try to find the user's points, or create a new document
     let userPoint = await this.userPointRepository.findOne({ guildId, userId });
     if (!userPoint) {
       userPoint = new UserPoint({ guildId, userId });
-      this.userPointRepository.persist(userPoint);
+      await this.userPointRepository.persistAndFlush(userPoint);
     }
 
-    if (points === 0)
+    if (!points)
       return userPoint.points;
 
     // Add the points to the user's points

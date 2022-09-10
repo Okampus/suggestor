@@ -88,8 +88,13 @@ export class FeedbackGateway {
       return;
 
     // Compute the points to give to the user, if any
-    const total = await this.feedbackService.addPoints(feedback.guildId, feedback.authorId, actionResultDto.points);
-    const payload = { ...actionResultDto, total };
+    const points = Number.isNaN(Number(actionResultDto.points)) ? 0 : Number(actionResultDto.points);
+    const total = await this.feedbackService.addPoints(feedback.guildId, feedback.authorId, points);
+    const payload = {
+      reason: actionResultDto.reason,
+      points,
+      total,
+    };
 
     // Do an action according to the submitted state
     if (this.isFeedbackState(type)) {
