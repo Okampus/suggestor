@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { ThreadAutoArchiveDuration } from 'discord.js';
 import { Feedback } from '../../lib/entities/feedback.entity';
 import { UserPoint } from '../../lib/entities/user-point.entity';
+import { FeedbackStatus } from '../../lib/enums';
 import type { GuildMessage, GuildModalInteraction } from '../../lib/types';
 import { Constants as MyConstants, trimText } from '../../lib/utils';
 import * as buttons from './feedback-button.components';
@@ -61,6 +62,11 @@ export class FeedbackService {
   }
 
   public async reject(interaction: GuildModalInteraction, result: FeedbackModalResultWithPoints): Promise<void> {
+    await this.feedbackRepository.nativeUpdate(
+      { statusMessageId: interaction.message.id },
+      { status: FeedbackStatus.Rejected },
+    );
+
     // We change the embed and remove all the buttons
     await interaction.message.edit({
       embeds: [embeds.getRejectEmbed(interaction, result)],
@@ -76,6 +82,11 @@ export class FeedbackService {
   }
 
   public async accept(interaction: GuildModalInteraction, result: FeedbackModalResult<true>): Promise<void> {
+    await this.feedbackRepository.nativeUpdate(
+      { statusMessageId: interaction.message.id },
+      { status: FeedbackStatus.Accepted },
+    );
+
     // We change the embed and put a new set of buttons
     const feedbackUid = MyConstants.FeedbackModalCustomIdRegex.exec(interaction.customId)!.groups!.id!;
     await interaction.message.edit({
@@ -85,6 +96,11 @@ export class FeedbackService {
   }
 
   public async drop(interaction: GuildModalInteraction, result: FeedbackModalResultWithPoints): Promise<void> {
+    await this.feedbackRepository.nativeUpdate(
+      { statusMessageId: interaction.message.id },
+      { status: FeedbackStatus.Dropped },
+    );
+
     // We change the embed and remove all the buttons
     await interaction.message.edit({
       embeds: [embeds.getDropEmbed(interaction, result)],
@@ -96,6 +112,11 @@ export class FeedbackService {
     interaction: GuildModalInteraction,
     result: FeedbackModalResultWithPoints<true> & { link?: string },
   ): Promise<void> {
+    await this.feedbackRepository.nativeUpdate(
+      { statusMessageId: interaction.message.id },
+      { status: FeedbackStatus.Implemented },
+    );
+
     // We change the embed and remove all the buttons
     await interaction.message.edit({
       embeds: [embeds.getImplementEmbed(interaction, result)],

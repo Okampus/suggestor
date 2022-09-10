@@ -1,4 +1,10 @@
-import { Entity, Index, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  Enum,
+  Index,
+  Property,
+} from '@mikro-orm/core';
+import { FeedbackStatus } from '../enums';
 import { BaseEntity } from './base-entity.entity';
 
 @Entity()
@@ -19,6 +25,9 @@ export class Feedback extends BaseEntity {
 
   @Property()
   statusMessageId!: string;
+
+  @Enum(() => FeedbackStatus)
+  status: FeedbackStatus = FeedbackStatus.Pending;
 
   @Property()
   feedbackId!: number;
