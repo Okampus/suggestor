@@ -76,6 +76,30 @@ export default {
     selfPoints: 'Tu as **{points} points** de feedback. Tu es **{rank}{suffix}** du serveur !',
     someonesPoints: `${userMention('{user}')} a **{points} points** de feedback et est **{rank}{suffix}** du serveur !`,
   },
+  managePointsCommand: {
+    description: 'Gérer les points de feedback.',
+    params: {
+      user: 'Personne visée.',
+      amount: 'Nombre de points à modifier.',
+    },
+    add: {
+      description: 'Ajouter des points à un utilisateur.',
+      success: `**{amount} points** ont bien été ajoutés à ${userMention('{userId}')} ! Il a désormais **{points} points**.`,
+    },
+    remove: {
+      description: 'Enlèver des points à un utilisateur.',
+      success: `**{amount} points** ont bien été enlevés à ${userMention('{userId}')} ! Il a désormais **{points} points**.`,
+    },
+    set: {
+      description: "Définir le nombre de points d'un utilisateur.",
+      success: `Le nombre de points de ${userMention('{userId}')} a bien été défini à **{points} points** !`,
+    },
+    show: {
+      description: "Voir le nombre de points d'un utilisateur.",
+      noPoints: `${userMention('{userId}')} n'a **aucun points**.`,
+      userPoints: `${userMention('{userId}')} a **{points} points**.`,
+    },
+  },
   issuesCommand: {
     description: 'Voir les retours encore en attente de réponse.',
     params: {
