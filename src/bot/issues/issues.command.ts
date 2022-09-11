@@ -31,7 +31,7 @@ export class IssuesCommand implements DiscordTransformedCommand<FiltersDto> {
   ): Promise<void> {
     const query: FilterQuery<Feedback> = {};
 
-    if (filtersDto.status === 'waiting')
+    if (!filtersDto.status || filtersDto.status === 'waiting')
       query.status = { $in: [FeedbackStatus.Pending, FeedbackStatus.Accepted] };
     else if (filtersDto.status !== 'all')
       query.status = filtersDto.status;
@@ -47,7 +47,7 @@ export class IssuesCommand implements DiscordTransformedCommand<FiltersDto> {
       return;
     }
 
-    const title = pupa(messagesConfig.issuesCommand.embed.titles[filtersDto.status ?? 'all'], {
+    const title = pupa(messagesConfig.issuesCommand.embed.titles[filtersDto.status ?? 'waiting'], {
       channel: filtersDto.channel,
       count: feedbacks.length,
     });
