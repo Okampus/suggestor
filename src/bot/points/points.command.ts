@@ -36,9 +36,18 @@ export class PointsCommand implements DiscordTransformedCommand<UserDto> {
       userId: userDto?.user ?? interaction.user.id,
     });
 
+    if (!userPoint || userPoint.points === 0) {
+      const content = userDto?.user
+        ? messagesConfig.pointsCommand.someonesNoPoints
+        : messagesConfig.pointsCommand.selfNoPoints;
+
+      await interaction.reply(pupa(content, { user: userDto.user }));
+      return;
+    }
+
     const betterUsers = await this.userPointRepository.count({
       guildId: interaction.guild!.id,
-      points: { $gt: userPoint?.points ?? 0 },
+      points: { $gt: userPoint.points },
     });
     const rank = betterUsers + 1;
 
@@ -49,7 +58,7 @@ export class PointsCommand implements DiscordTransformedCommand<UserDto> {
     const suffix = rank === 1 ? 'er' : 'e';
     await interaction.reply(pupa(content, {
       user: userDto.user,
-      points: userPoint?.points ?? 0,
+      points: userPoint.points,
       rank,
       suffix,
     }));

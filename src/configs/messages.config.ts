@@ -75,6 +75,8 @@ export default {
     },
     selfPoints: 'Tu as **{points} points** de feedback. Tu es **{rank}{suffix}** du serveur !',
     someonesPoints: `${userMention('{user}')} a **{points} points** de feedback et est **{rank}{suffix}** du serveur !`,
+    selfNoPoints: "Tu n'as **aucun point** de feedback. Utilise <https://okampus.fr> et partage tes retours dans les salons de feedback pour en gagner !",
+    someonesNoPoints: `${userMention('{user}')} n'a **aucun point** de feedback.`,
   },
   managePointsCommand: {
     description: 'Gérer les points de feedback.',
