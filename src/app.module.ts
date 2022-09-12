@@ -12,7 +12,11 @@ import config from './configs/app.config';
       useFactory: () => ({
         token: config.token,
         discordClientOptions: {
-          intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+          intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.MessageContent,
+          ],
         },
         registerCommandOptions: [{ removeCommandsBefore: true }],
       }),
