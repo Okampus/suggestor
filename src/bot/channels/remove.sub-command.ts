@@ -12,7 +12,7 @@ import { CACHE_MANAGER, Inject } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import messagesConfig from '../../configs/messages.config';
 import { GuildConfig } from '../../lib/entities/guild-config.entity';
-import { CacheKey, DurationSeconds } from '../../lib/enums';
+import { CacheKey, DurationMs } from '../../lib/enums';
 import { ChannelsDto } from './dto/channels.dto';
 
 @UsePipes(TransformPipe)
@@ -47,7 +47,7 @@ export class RemoveSubCommand implements DiscordTransformedCommand<ChannelsDto> 
     // Uncache the provided channels
     const allCachedChannelIds = await this.cacheManager.get<Set<string>>(CacheKey.FeedbackChannelIds) ?? new Set();
     allCachedChannelIds.deleteAll(...channelIds);
-    await this.cacheManager.set(CacheKey.FeedbackChannelIds, allCachedChannelIds, { ttl: DurationSeconds.OneWeek });
+    await this.cacheManager.set(CacheKey.FeedbackChannelIds, allCachedChannelIds, DurationMs.OneWeek);
 
     await interaction.reply({
       content: messagesConfig.channelsCommand.remove.success,

@@ -6,7 +6,7 @@ import { Cache } from 'cache-manager';
 import messagesConfig from '../../configs/messages.config';
 import { ParseModal } from '../../lib/decorators';
 import { GuildConfig } from '../../lib/entities/guild-config.entity';
-import { CacheKey, DurationSeconds } from '../../lib/enums';
+import { CacheKey, DurationMs } from '../../lib/enums';
 import {
   ButtonInteractionGuard,
   CanManageMessagesGuard,
@@ -47,7 +47,7 @@ export class FeedbackGateway {
 
     // Cache the found channels
     cachedChannelIds.addAll(...config.feedbackChannelIds);
-    await this.cacheManager.set(CacheKey.FeedbackChannelIds, cachedChannelIds, { ttl: DurationSeconds.OneWeek });
+    await this.cacheManager.set(CacheKey.FeedbackChannelIds, cachedChannelIds, DurationMs.OneWeek);
 
     // Check with the fetched guild configuration
     if (config.feedbackChannelIds.includes(message.channel.id))
