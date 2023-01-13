@@ -31,14 +31,12 @@ function getEmbed(
   fieldTitle: keyof typeof messagesConfig.feedback.embed,
   fieldValue: string,
 ): EmbedBuilder {
-  const builder = new EmbedBuilder(interaction.message.embeds[0].data);
+  const builder = EmbedBuilder.from(interaction.message!.embeds[0]);
   builder.setDescription(null);
-  builder.addFields([
-    {
-      name: pupa(messagesConfig.feedback.embed[fieldTitle], { member: interaction.member, date: date() }),
-      value: fieldValue,
-    },
-  ]);
+  builder.addFields({
+    name: pupa(messagesConfig.feedback.embed[fieldTitle], { member: interaction.member, date: date() }),
+    value: fieldValue,
+  });
   return builder;
 }
 

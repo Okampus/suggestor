@@ -63,12 +63,12 @@ export class FeedbackService {
 
   public async reject(interaction: GuildModalInteraction, result: FeedbackModalResultWithPoints): Promise<void> {
     await this.feedbackRepository.nativeUpdate(
-      { statusMessageId: interaction.message.id },
+      { statusMessageId: interaction.message!.id },
       { status: FeedbackStatus.Rejected },
     );
 
     // We change the embed and remove all the buttons
-    await interaction.message.edit({
+    await interaction.message!.edit({
       embeds: [embeds.getRejectEmbed(interaction, result)],
       components: [],
     });
@@ -76,20 +76,20 @@ export class FeedbackService {
 
   public async update(interaction: GuildModalInteraction, result: FeedbackModalResult): Promise<void> {
     // We add a field the embed
-    await interaction.message.edit({
+    await interaction.message!.edit({
       embeds: [embeds.getUpdateEmbed(interaction, result)],
     });
   }
 
   public async accept(interaction: GuildModalInteraction, result: FeedbackModalResult<true>): Promise<void> {
     await this.feedbackRepository.nativeUpdate(
-      { statusMessageId: interaction.message.id },
+      { statusMessageId: interaction.message!.id },
       { status: FeedbackStatus.Accepted },
     );
 
     // We change the embed and put a new set of buttons
     const feedbackUid = MyConstants.FeedbackModalCustomIdRegex.exec(interaction.customId)!.groups!.id!;
-    await interaction.message.edit({
+    await interaction.message!.edit({
       embeds: [embeds.getAcceptEmbed(interaction, result)],
       components: buttons.getAcceptedComponents(feedbackUid),
     });
@@ -97,12 +97,12 @@ export class FeedbackService {
 
   public async drop(interaction: GuildModalInteraction, result: FeedbackModalResultWithPoints): Promise<void> {
     await this.feedbackRepository.nativeUpdate(
-      { statusMessageId: interaction.message.id },
+      { statusMessageId: interaction.message!.id },
       { status: FeedbackStatus.Dropped },
     );
 
     // We change the embed and remove all the buttons
-    await interaction.message.edit({
+    await interaction.message!.edit({
       embeds: [embeds.getDropEmbed(interaction, result)],
       components: [],
     });
@@ -113,12 +113,12 @@ export class FeedbackService {
     result: FeedbackModalResultWithPoints<true> & { link?: string },
   ): Promise<void> {
     await this.feedbackRepository.nativeUpdate(
-      { statusMessageId: interaction.message.id },
+      { statusMessageId: interaction.message!.id },
       { status: FeedbackStatus.Implemented },
     );
 
     // We change the embed and remove all the buttons
-    await interaction.message.edit({
+    await interaction.message!.edit({
       embeds: [embeds.getImplementEmbed(interaction, result)],
       components: [],
     });
