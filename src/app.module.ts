@@ -18,7 +18,7 @@ import config from './configs/app.config';
             GatewayIntentBits.MessageContent,
           ],
         },
-        registerCommandOptions: [{ removeCommandsBefore: true }],
+        registerCommandOptions: [{ forGuild: '459993816468815894', removeCommandsBefore: true }],
       }),
     }),
     MikroOrmModule.forRoot(),
