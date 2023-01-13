@@ -28,6 +28,7 @@ export class ShowSubCommand implements DiscordTransformedCommand<UserDto> {
     if (!userPoint) {
       await interaction.reply({
         content: pupa(messagesConfig.managePointsCommand.show.noPoints, { userId: userDto.user }),
+        allowedMentions: { users: [] },
         ephemeral: true,
       });
       return;
@@ -35,6 +36,7 @@ export class ShowSubCommand implements DiscordTransformedCommand<UserDto> {
 
     await interaction.reply({
       content: pupa(messagesConfig.managePointsCommand.show.userPoints, { ...userPoint }),
+      allowedMentions: { users: [] },
       ephemeral: true,
     });
   }

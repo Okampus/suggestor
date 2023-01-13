@@ -35,6 +35,7 @@ export class AddSubCommand implements DiscordTransformedCommand<UpdatePointsDto>
 
     await interaction.reply({
       content: pupa(messagesConfig.managePointsCommand.add.success, { ...updatePointsDto, ...userPoint }),
+      allowedMentions: { users: [] },
       ephemeral: true,
     });
   }

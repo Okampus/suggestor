@@ -56,11 +56,14 @@ export class PointsCommand implements DiscordTransformedCommand<UserDto> {
       : messagesConfig.pointsCommand.selfPoints;
 
     const suffix = rank === 1 ? 'er' : 'e';
-    await interaction.reply(pupa(content, {
-      user: userDto.user,
-      points: userPoint.points,
-      rank,
-      suffix,
-    }));
+    await interaction.reply({
+      content: pupa(content, {
+        user: userDto.user,
+        points: userPoint.points,
+        rank,
+        suffix,
+      }),
+      allowedMentions: { users: [] },
+    });
   }
 }

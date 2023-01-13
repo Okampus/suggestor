@@ -35,6 +35,7 @@ export class RemoveSubCommand implements DiscordTransformedCommand<UpdatePointsD
 
     await interaction.reply({
       content: pupa(messagesConfig.managePointsCommand.remove.success, { ...updatePointsDto, ...userPoint }),
+      allowedMentions: { users: [] },
       ephemeral: true,
     });
   }
