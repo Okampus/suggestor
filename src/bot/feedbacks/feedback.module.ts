@@ -16,11 +16,11 @@ import { FeedbackService } from './feedback.service';
   providers: [
     guards.ButtonInteractionGuard,
     guards.CanManageMessagesGuard,
+    guards.EnsureStarterMessageGuard,
     guards.InteractionInGuildGuard,
     guards.IsFeedbackButtonGuard,
     guards.IsFeedbackModalGuard,
     guards.MessageFromUserGuard,
-    guards.MessageInGuildGuard,
     guards.ModalInteractionGuard,
 
     FeedbackService,

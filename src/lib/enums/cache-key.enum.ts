@@ -1,3 +1,3 @@
 export enum CacheKey {
-  FeedbackChannelIds = 'feedback-channel-ids',
+  FeedbackChannelId = 'feedback-channel-id',
 }

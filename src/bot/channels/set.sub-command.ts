@@ -10,35 +10,43 @@ import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { CACHE_MANAGER, Inject } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import { ChannelType } from 'discord.js';
+import appConfig from '../../configs/app.config';
 import messagesConfig from '../../configs/messages.config';
 import { GuildConfig } from '../../lib/entities/guild-config.entity';
 import { CacheKey, DurationMs } from '../../lib/enums';
-import { ChannelsDto } from './dto/channels.dto';
+import { ChannelDto } from './dto/channels.dto';
 
 @UsePipes(TransformPipe)
-@SubCommand({ name: 'add', description: messagesConfig.channelsCommand.add.description })
-export class AddSubCommand implements DiscordTransformedCommand<ChannelsDto> {
+@SubCommand({ name: 'set', description: messagesConfig.channelsCommand.set.description })
+export class SetSubCommand implements DiscordTransformedCommand<ChannelDto> {
   constructor(
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     @InjectRepository(GuildConfig) private readonly guildConfigRepository: EntityRepository<GuildConfig>,
   ) {}
 
   public async handler(
-    @Payload() addDto: ChannelsDto,
+    @Payload() setDto: ChannelDto,
     { interaction }: TransformedCommandExecutionContext,
-    ): Promise<void> {
-    // Deduplicate the provided channel IDs
-    const channelIds = new Set(Object.values(addDto));
+  ): Promise<void> {
+    const channelId = setDto.channel;
+    const channel = await interaction.guild!.channels.fetch(channelId);
+    if (channel?.type !== ChannelType.GuildForum) {
+      await interaction.reply({
+        content: messagesConfig.channelsCommand.set.notForum,
+        ephemeral: true,
+      });
+      return;
+    }
 
     // Retrieve the configuration set for the guild
-    const config = await this.guildConfigRepository.findOne({ guildId: interaction.guild!.id });
+    const config = await this.guildConfigRepository.findOne({ guildId: interaction.guildId! });
     if (config) {
       // Update the configuration with the new channels
-      channelIds.addAll(...config.feedbackChannelIds);
-      config.feedbackChannelIds = [...channelIds];
+      config.feedbackChannelId = channelId;
     } else {
       // Create a new configuration with the new channels
-      const newConfig = new GuildConfig({ guildId: interaction.guild!.id, feedbackChannelIds: [...channelIds] });
+      const newConfig = new GuildConfig({ guildId: interaction.guildId!, feedbackChannelId: channelId });
       this.guildConfigRepository.persist(newConfig);
     }
 
@@ -46,12 +54,13 @@ export class AddSubCommand implements DiscordTransformedCommand<ChannelsDto> {
     await this.guildConfigRepository.flush();
 
     // Cache the newly provided channels
-    const allCachedChannelIds = await this.cacheManager.get<Set<string>>(CacheKey.FeedbackChannelIds) ?? new Set();
-    allCachedChannelIds.addAll(...channelIds);
-    await this.cacheManager.set(CacheKey.FeedbackChannelIds, allCachedChannelIds, DurationMs.OneWeek);
+    await this.cacheManager.set(`${CacheKey.FeedbackChannelId}.${interaction.guildId!}`, channelId, DurationMs.OneWeek);
+
+    // Reset the forum's tags
+    await channel.setAvailableTags(Object.values(appConfig.forumTags));
 
     await interaction.reply({
-      content: messagesConfig.channelsCommand.add.success,
+      content: messagesConfig.channelsCommand.set.success,
       ephemeral: true,
     });
   }

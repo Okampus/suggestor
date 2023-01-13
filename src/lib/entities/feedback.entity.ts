@@ -17,6 +17,9 @@ export class Feedback extends BaseEntity {
   channelId!: string;
 
   @Property()
+  threadId!: string;
+
+  @Property()
   @Index()
   messageId!: string;
 
@@ -35,6 +38,7 @@ export class Feedback extends BaseEntity {
   constructor(options: {
     guildId: string;
     channelId: string;
+    threadId: string;
     messageId: string;
     authorId: string;
     statusMessageId?: string;
@@ -43,6 +47,7 @@ export class Feedback extends BaseEntity {
     super();
     this.guildId = options.guildId;
     this.channelId = options.channelId;
+    this.threadId = options.threadId;
     this.messageId = options.messageId;
     this.authorId = options.authorId;
     this.statusMessageId = '';

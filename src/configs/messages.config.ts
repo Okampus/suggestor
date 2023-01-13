@@ -49,23 +49,24 @@ export default {
     },
   },
   channelsCommand: {
-    description: 'Configure les salons de feedback.',
+    description: 'Configure le salon de feedback.',
     params: {
-      channel: 'Salon de feedback à ajouter.',
+      channel: 'Salon forum de feedback à ajouter.',
     },
-    add: {
-      description: 'Ajoute un ou plusieurs salon(s) de feedback.',
-      success: 'Ces salons sont désormais des salons de feedback !',
+    set: {
+      description: 'Défini un salon forum utilisé pour les feedbacks.',
+      notForum: "Ce salon n'est pas un salon forum.",
+      success: 'Ce salon sera désormais un salon de feedback !',
     },
     show: {
-      description: 'Voir les salons de feedback configurés.',
-      none: `Aucun salon n'a été configuré pour cette guilde. Utilisez ${inlineCode('/config add <salon>')} pour ajouter un ou des salon(s).`,
-      list: 'Les salons configurés pour les feedbacks sont : {channels}',
+      description: 'Voir le salon de feedback configuré.',
+      none: `Aucun salon n'a été configuré pour cette guilde. Utilisez ${inlineCode('/channels set <salon>')} pour ajouter un salon.`,
+      list: 'Le salon configuré pour les feedbacks est {channel}',
     },
-    remove: {
-      description: 'Enlève un ou plusieurs salon(s) de feedback.',
-      none: "Aucun de ces salons n'était configuré pour les feedbacks.",
-      success: 'Ces salons ne sont désormais plus des salons de feeback !',
+    unset: {
+      description: 'Désassocie le salon de feedback configuré.',
+      none: "Aucun salon n'est configuré pour les feedbacks.",
+      success: "Le salon n'est désormais plus un salon de feebacks !",
     },
   },
   pointsCommand: {

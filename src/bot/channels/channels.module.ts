@@ -2,10 +2,10 @@ import { DiscordModule } from '@discord-nestjs/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { GuildConfig } from '../../lib/entities/guild-config.entity';
-import { AddSubCommand } from './add.sub-command';
 import { ChannelsCommand } from './channels.command';
-import { RemoveSubCommand } from './remove.sub-command';
+import { SetSubCommand } from './set.sub-command';
 import { ShowSubCommand } from './show.sub-command';
+import { UnsetSubCommand } from './unset.sub-command';
 
 @Module({
   imports: [
@@ -14,9 +14,9 @@ import { ShowSubCommand } from './show.sub-command';
   ],
   providers: [
     ChannelsCommand,
-    AddSubCommand,
+    SetSubCommand,
     ShowSubCommand,
-    RemoveSubCommand,
+    UnsetSubCommand,
   ],
   exports: [],
 })

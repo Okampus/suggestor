@@ -8,15 +8,15 @@ export class GuildConfig extends BaseEntity {
   guildId!: string;
 
   @Property()
-  feedbackChannelIds: string[] = [];
+  feedbackChannelId: string | null = null;
 
   constructor(options: {
     guildId: string;
-    feedbackChannelIds?: string[];
+    feedbackChannelId?: string;
   }) {
     super();
     this.guildId = options.guildId;
-    if (options.feedbackChannelIds)
-      this.feedbackChannelIds = options.feedbackChannelIds;
+    if (options.feedbackChannelId)
+      this.feedbackChannelId = options.feedbackChannelId;
   }
 }

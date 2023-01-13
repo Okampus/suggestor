@@ -3,6 +3,7 @@ import { EntityRepository } from '@mikro-orm/mongodb';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import { ThreadChannel } from 'discord.js';
 import messagesConfig from '../../configs/messages.config';
 import { ParseModal } from '../../lib/decorators';
 import { GuildConfig } from '../../lib/entities/guild-config.entity';
@@ -10,15 +11,15 @@ import { CacheKey, DurationMs } from '../../lib/enums';
 import {
   ButtonInteractionGuard,
   CanManageMessagesGuard,
+  EnsureStarterMessageGuard,
   InteractionInGuildGuard,
   IsFeedbackButtonGuard,
   IsFeedbackModalGuard,
   MessageFromUserGuard,
-  MessageInGuildGuard,
   ModalInteractionGuard,
 } from '../../lib/guards';
 import type { FeedbackState } from '../../lib/types';
-import { GuildButtonInteraction, GuildMessage, GuildModalInteraction } from '../../lib/types';
+import { GuildButtonInteraction, GuildModalInteraction } from '../../lib/types';
 import { Constants } from '../../lib/utils';
 import { ActionResultDto } from './dto/action-result.dto';
 import * as modals from './feedback-modal.components';
@@ -32,25 +33,26 @@ export class FeedbackGateway {
     private readonly feedbackService: FeedbackService,
   ) {}
 
-  @On('messageCreate')
-  @UseGuards(MessageFromUserGuard, MessageInGuildGuard)
-  public async onMessage(message: GuildMessage): Promise<void> {
+  @On('threadCreate')
+  @UseGuards(EnsureStarterMessageGuard, MessageFromUserGuard)
+  public async onThreadCreate(thread: ThreadChannel): Promise<void> {
+    const message = thread.messages.cache.first()!;
+
     // Search through cached channels
-    const cachedChannelIds = await this.cacheManager.get<Set<string>>(CacheKey.FeedbackChannelIds) ?? new Set();
-    if (cachedChannelIds.has(message.channel.id))
+    const cachedChannelId = await this.cacheManager.get<string>(`${CacheKey.FeedbackChannelId}.${message.guildId}`);
+    if (cachedChannelId === message.channel.parentId)
       return this.feedbackService.create(message);
 
     // Retrieve the configuration set for the guild
-    const config = await this.configRepository.findOne({ guildId: message.guild.id });
+    const config = await this.configRepository.findOne({ guildId: message.guildId });
     if (!config)
       return;
 
     // Cache the found channels
-    cachedChannelIds.addAll(...config.feedbackChannelIds);
-    await this.cacheManager.set(CacheKey.FeedbackChannelIds, cachedChannelIds, DurationMs.OneWeek);
+    await this.cacheManager.set(`${CacheKey.FeedbackChannelId}.${message.guildId}`, config.feedbackChannelId, DurationMs.OneWeek);
 
     // Check with the fetched guild configuration
-    if (config.feedbackChannelIds.includes(message.channel.id))
+    if (config.feedbackChannelId === message.channel.parentId)
       return this.feedbackService.create(message);
   }
 

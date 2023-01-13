@@ -17,4 +17,14 @@ export default {
     gray: '#4f4f4f' as ColorResolvable,
     transparent: '#2f3136' as ColorResolvable,
   },
+  forumTags: {
+    idea: { emoji: { id: null, name: '💡' }, moderated: false, name: 'Idée' },
+    uiux: { emoji: { id: null, name: '✨' }, moderated: false, name: 'UI/UX' },
+    bug: { emoji: { id: null, name: '🐛' }, moderated: false, name: 'Bug' },
+    security: { emoji: { id: null, name: '🏴' }, moderated: false, name: 'Sécurité' },
+    rejected: { emoji: { id: null, name: '❌' }, moderated: true, name: 'Rejeté' },
+    accepted: { emoji: { id: null, name: '💚' }, moderated: true, name: 'Accepté' },
+    dropped: { emoji: { id: null, name: '🚫' }, moderated: true, name: 'Abandonné' },
+    implemented: { emoji: { id: null, name: '✅' }, moderated: true, name: 'Implémenté' },
+  },
 };

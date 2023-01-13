@@ -18,7 +18,7 @@ export class ShowSubCommand implements DiscordCommand {
     const config = await this.guildConfigRepository.findOne({ guildId: interaction.guild!.id });
 
     // If none is found, or no channel are set, return a message
-    if (!config || config.feedbackChannelIds.length === 0) {
+    if (!config?.feedbackChannelId) {
       await interaction.reply({
         content: messagesConfig.channelsCommand.show.none,
         ephemeral: true,
@@ -27,14 +27,11 @@ export class ShowSubCommand implements DiscordCommand {
     }
 
     // Retrieve the channel objects
-    const channels = interaction.guild!.channels.cache
-      .filter(channel => config.feedbackChannelIds.includes(channel.id));
+    const channel = interaction.guild!.channels.cache.get(config.feedbackChannelId);
 
     // Display the channels
     await interaction.reply({
-      content: pupa(messagesConfig.channelsCommand.show.list, {
-        channels: [...channels.map(channel => channel.toString()).values()].join(', '),
-      }),
+      content: pupa(messagesConfig.channelsCommand.show.list, { channel: channel?.toString() }),
       ephemeral: true,
     });
   }

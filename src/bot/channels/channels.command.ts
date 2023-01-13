@@ -1,9 +1,9 @@
 import { Command } from '@discord-nestjs/core';
 import { PermissionFlagsBits } from 'discord.js';
 import messagesConfig from '../../configs/messages.config';
-import { AddSubCommand } from './add.sub-command';
-import { RemoveSubCommand } from './remove.sub-command';
+import { SetSubCommand } from './set.sub-command';
 import { ShowSubCommand } from './show.sub-command';
+import { UnsetSubCommand } from './unset.sub-command';
 
 @Command({
   name: 'channels',
@@ -11,9 +11,9 @@ import { ShowSubCommand } from './show.sub-command';
   defaultMemberPermissions: PermissionFlagsBits.Administrator,
   dmPermission: false,
   include: [
-    AddSubCommand,
+    SetSubCommand,
     ShowSubCommand,
-    RemoveSubCommand,
+    UnsetSubCommand,
   ],
 })
 export class ChannelsCommand {}
